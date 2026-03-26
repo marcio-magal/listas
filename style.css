@@ -1,68 +1,172 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
+/* Reset básico */
+* {
   margin: 0;
-  padding: 10px;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, Arial, sans-serif;
 }
 
+/* Corpo */
+body {
+  background-color: #0f1115;
+  color: #e6e6e6;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* Container principal */
 .container {
-  max-width: 500px;
-  margin: auto;
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
+  width: 100%;
+  max-width: 480px;
 }
 
-h1, h2 {
+/* Cabeçalho */
+.header {
+  margin-bottom: 16px;
+}
+
+.header h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
   text-align: center;
 }
 
-.input-group {
+/* Input */
+.input-section {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
-input {
+.input-section input {
   flex: 1;
   padding: 10px;
-  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background-color: #1a1d24;
+  color: #fff;
+  font-size: 0.95rem;
 }
 
-button {
-  padding: 10px;
-  font-size: 16px;
+.input-section input::placeholder {
+  color: #888;
+}
+
+.input-section button {
+  padding: 0 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2f81f7;
+  color: #fff;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 
-.save-btn {
-  width: 100%;
-  margin-top: 10px;
-  background: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-
-ul {
+/* Lista */
+.list-section ul {
   list-style: none;
-  padding: 0;
+  margin-bottom: 12px;
 }
 
-li {
+/* Item */
+.list-section li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1a1d24;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+/* Conteúdo do item */
+.item-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+/* Texto concluído */
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Botão remover */
+.remove-btn {
+  background: none;
+  border: none;
+  color: #ff5c5c;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Ações */
+.actions {
+  margin-bottom: 16px;
+}
+
+.actions button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: #238636;
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+/* Listas salvas */
+.saved-lists h2 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.saved-lists ul {
+  list-style: none;
+}
+
+/* Item de lista salva */
+.saved-lists li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #eee;
-  margin-top: 5px;
+  background-color: #1a1d24;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
 }
 
-.completed {
-  text-decoration: line-through;
-  color: gray;
+/* Botões de listas salvas */
+.saved-actions {
+  display: flex;
+  gap: 6px;
 }
 
-.item-actions button {
-  margin-left: 5px;
+.saved-actions button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.load-btn {
+  color: #2f81f7;
+}
+
+.delete-btn {
+  color: #ff5c5c;
+}
+
+/* Responsividade leve */
+@media (max-width: 400px) {
+  .header h1 {
+    font-size: 1.2rem;
+  }
 }
