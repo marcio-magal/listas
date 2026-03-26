@@ -1,18 +1,39 @@
-// Elementos
+// ======================
+// SAFE STORAGE (corrige mobile)
+// ======================
+
+function isStorageAvailable() {
+  try {
+    const test = "__test__";
+    localStorage.setItem(test, test);
+    localStorage.removeItem(test);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const storageAvailable = isStorageAvailable();
+
+// fallback em memória (caso localStorage falhe)
+let memoryStorage = [];
+
+// ======================
+// ELEMENTOS
+// ======================
+
 const input = document.getElementById("item-input");
 const addBtn = document.getElementById("add-btn");
 const itemList = document.getElementById("item-list");
 const saveListBtn = document.getElementById("save-list-btn");
 const savedListsEl = document.getElementById("saved-lists");
 
-// Estado atual
 let currentItems = [];
 
 // ======================
-// UTILIDADES
+// UTIL
 // ======================
 
-// Formatar data (dd/mm/yyyy - hh:mm)
 function formatDate(date) {
   const d = String(date.getDate()).padStart(2, "0");
   const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -23,21 +44,29 @@ function formatDate(date) {
   return `${d}/${m}/${y} - ${h}:${min}`;
 }
 
-// Salvar no localStorage
+// ======================
+// STORAGE
+// ======================
+
 function saveToStorage(lists) {
-  localStorage.setItem("lists", JSON.stringify(lists));
+  if (storageAvailable) {
+    localStorage.setItem("lists", JSON.stringify(lists));
+  } else {
+    memoryStorage = lists;
+  }
 }
 
-// Carregar do localStorage
 function loadFromStorage() {
-  return JSON.parse(localStorage.getItem("lists")) || [];
+  if (storageAvailable) {
+    return JSON.parse(localStorage.getItem("lists")) || [];
+  }
+  return memoryStorage;
 }
 
 // ======================
 // LISTA ATUAL
 // ======================
 
-// Renderizar itens
 function renderItems() {
   itemList.innerHTML = "";
 
@@ -53,9 +82,9 @@ function renderItems() {
 
     const text = document.createElement("span");
     text.textContent = item.text;
+
     if (item.completed) text.classList.add("completed");
 
-    // Marcar concluído
     checkbox.addEventListener("change", () => {
       item.completed = checkbox.checked;
       renderItems();
@@ -64,7 +93,6 @@ function renderItems() {
     content.appendChild(checkbox);
     content.appendChild(text);
 
-    // Botão remover
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "✕";
     removeBtn.className = "remove-btn";
@@ -81,7 +109,6 @@ function renderItems() {
   });
 }
 
-// Adicionar item
 function addItem() {
   const text = input.value.trim();
   if (!text) return;
@@ -99,7 +126,6 @@ function addItem() {
 // LISTAS SALVAS
 // ======================
 
-// Renderizar listas salvas
 function renderSavedLists() {
   const lists = loadFromStorage();
   savedListsEl.innerHTML = "";
@@ -113,24 +139,21 @@ function renderSavedLists() {
     const actions = document.createElement("div");
     actions.className = "saved-actions";
 
-    // Carregar lista
     const loadBtn = document.createElement("button");
     loadBtn.textContent = "Abrir";
     loadBtn.className = "load-btn";
 
     loadBtn.addEventListener("click", () => {
-      currentItems = [...list.items];
+      currentItems = JSON.parse(JSON.stringify(list.items));
       renderItems();
     });
 
-    // Deletar lista (com confirmação)
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Excluir";
     deleteBtn.className = "delete-btn";
 
     deleteBtn.addEventListener("click", () => {
-      const confirmDelete = confirm("Deseja excluir esta lista?");
-      if (!confirmDelete) return;
+      if (!confirm("Deseja excluir esta lista?")) return;
 
       const lists = loadFromStorage();
       lists.splice(index, 1);
@@ -148,35 +171,37 @@ function renderSavedLists() {
   });
 }
 
-// Salvar lista atual
 function saveCurrentList() {
   if (currentItems.length === 0) return;
 
   const lists = loadFromStorage();
 
-  const newList = {
+  lists.push({
     name: formatDate(new Date()),
     items: currentItems
-  };
+  });
 
-  lists.push(newList);
   saveToStorage(lists);
-
   renderSavedLists();
 }
 
 // ======================
-// EVENTOS
+// EVENTOS (melhor para mobile)
 // ======================
 
 addBtn.addEventListener("click", addItem);
 
-input.addEventListener("keypress", (e) => {
+input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") addItem();
 });
 
 saveListBtn.addEventListener("click", saveCurrentList);
 
-// Inicialização
-renderItems();
-renderSavedLists();
+// ======================
+// INIT
+// ======================
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderItems();
+  renderSavedLists();
+});

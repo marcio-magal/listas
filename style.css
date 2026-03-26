@@ -1,4 +1,7 @@
 /* Reset básico */
+html, body {
+  background-color: #0f1115;
+}
 * {
   margin: 0;
   padding: 0;
