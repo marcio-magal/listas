@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minhas Listas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Minha Lista</h1>
+
+    <div class="input-group">
+      <input type="text" id="itemInput" placeholder="Adicionar item...">
+      <button onclick="addItem()">+</button>
+    </div>
+
+    <ul id="itemList"></ul>
+
+    <button class="save-btn" onclick="saveList()">Salvar Lista</button>
+
+    <h2>Listas Salvas</h2>
+    <ul id="savedLists"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
